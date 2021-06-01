@@ -1,0 +1,150 @@
+<my-bets balance="$ctrl.balance" distance-to-top="$ctrl.distanceToTop"
+  on-tab-toggle="$ctrl.onMyBetsTabToggle(selectedTab)">
+  <section class="my-bets">
+    <div class="my-bets__holder" resize-to-viewport="" offset="88" style="max-height: calc(100vh - 88px);">
+      <div class="my-bets__header">
+        <!---->
+        <my-bets-tabs tabs="$ctrl.tabs" on-toggle="$ctrl.onTabClick(itemId)">
+          <div class="my-bets-tabs">
+            <!----><button class="my-bets-tabs__tab my-bets-tabs__tab--selected"
+              ng-repeat="item in $ctrl.tabs track by item.id" ng-click="$ctrl.onToggle({itemId: item.id})"
+              ng-class="{'my-bets-tabs__tab--selected': item.isSelected}">
+              <svg class="my-bets-tabs__tab-arrow">
+                <use xlink:href="sprite_af6b8a95bc96caded4f577941222382b.svg#functional-arrow-usage"></use>
+              </svg>
+              <span class="my-bets-tabs__tab-title">Betslip</span>
+              <!---->
+              <abc-counter ng-if="item.showCounter" class="my-bets-tabs__tab-counter" size="medium" number="0">
+                <span class="counter counter--medium counter--inactive" ng-class="{
+      'counter--large': $ctrl.isLarge,
+      'counter--medium': $ctrl.isMedium,
+      'counter--small': $ctrl.isSmall,
+      'counter--inactive': $ctrl.isInactive,
+      'counter--has-increased': $ctrl.hasIncreased
+  }">
+                  <span class="counter__value">0</span>
+                </span>
+              </abc-counter>
+              <!---->
+            </button>
+            <!----><button class="my-bets-tabs__tab" ng-repeat="item in $ctrl.tabs track by item.id"
+              ng-click="$ctrl.onToggle({itemId: item.id})" ng-class="{'my-bets-tabs__tab--selected': item.isSelected}">
+              <svg class="my-bets-tabs__tab-arrow">
+                <use xlink:href="sprite_af6b8a95bc96caded4f577941222382b.svg#functional-arrow-usage"></use>
+              </svg>
+              <span class="my-bets-tabs__tab-title">My Bets</span>
+              <!---->
+              <abc-counter ng-if="item.showCounter" class="my-bets-tabs__tab-counter" size="medium" number="0">
+                <span class="counter counter--medium counter--inactive" ng-class="{
+      'counter--large': $ctrl.isLarge,
+      'counter--medium': $ctrl.isMedium,
+      'counter--small': $ctrl.isSmall,
+      'counter--inactive': $ctrl.isInactive,
+      'counter--has-increased': $ctrl.hasIncreased
+  }">
+                  <span class="counter__value">0</span>
+                </span>
+              </abc-counter>
+              <!---->
+            </button>
+            <!---->
+          </div>
+        </my-bets-tabs>
+      </div>
+      <div class="my-bets__container" ng-show="$ctrl.selectedTabId !== null">
+        <betslip-container show-betslip="$ctrl.selectedTabId === 'betslip'" balance="$ctrl.balance"
+          class="my-bets__betslip my-bets__betslip--open"
+          ng-class="{'my-bets__betslip--open': $ctrl.selectedTabId === 'betslip'}">
+          <!---->
+          <div class="betslip-container" ng-if="$ctrl.showBetslip">
+            <!---->
+            <div class="betslip-container__content">
+              <sbk-betslip data="$ctrl.betslipViewModel[$ctrl.selectedGroup]"
+                on-change="$ctrl.handleBetslipUserAction($ctrl.selectedGroup, action, payload)">
+                <div class="sbk-betslip">
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="sbk-betslip__receipt" ng-if="$ctrl.isReceiptBetslipView" ng-switch=""
+                    on="$ctrl.receipt.showQuickReceipt">
+                    <!---->
+                    <!---->
+                    <div ng-switch-when="false">
+                      <section class="sbk-betslip__content">
+                        <section class="sbk-section sbk-section--light sbk-section--raised">
+                          <sbk-receipt receipt="$ctrl.receipt" on-change="$ctrl.handleAction(action, payload)">
+                            <div class="sbk-betslip-receipt">
+                              <sbk-receipt-header message="$ctrl.receipt.receiptMessage"
+                                total-stake="$ctrl.receipt.totalStake" has-bonus-used="$ctrl.receipt.hasBonusUsed"
+                                total-bonus-used="$ctrl.receipt.totalBonusUsed"
+                                has-enhanced-selections="$ctrl.receipt.hasEnhancedSelections"
+                                original-total-potential-return="$ctrl.receipt.originalTotalPotentialReturn"
+                                total-potential-return="$ctrl.receipt.totalPotentialReturn"
+                                show-retain-selections="false">
+                                <section class="sbk-receipt-header">
+                                  <div class="sbk-receipt-header__message">
+                                    <div class="success-icon"></div>
+                                    <div class="success-info"><span class="success-info__message">Nice one! Your bet’s
+                                        on</span></div>
+                                    <!---->
+                                  </div>
+                                  <div class="sbk-receipt-header__totals">
+                                    <div class="total-line total-stake"><span class="total-stake__label">Total
+                                        stake:</span> <span class="total-stake__value">£0.10</span></div>
+                                    <!---->
+                                    <div class="total-line total-returns"><span class="total-returns__label">Potential
+                                        returns:</span>
+                                      <div class="total-returns__value">
+                                        <!---->
+                                        <div ng-class="{'total-returns__value--enhanced': $ctrl.hasEnhancedSelections}">
+                                          <span>£0.14</span></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </section>
+                              </sbk-receipt-header>
+                              <sbk-content-accordion expanded="$ctrl.isOpen"
+                                label1="$ctrl.isOpen ? 'I18N.BETSLIP.RECEIPT.HIDDEN' : 'I18N.BETSLIP.RECEIPT.SHOWN' | bsI18N"
+                                on-toggle="$ctrl.onReceiptToggle(expanded)">
+                                <div class="content-accordion">
+                                  <div class="content-accordion__header" ng-click="$ctrl.toggle()"><span
+                                      class="content-accordion__header__arrow"><span class="arrow arrow--right"
+                                        ng-class="{'arrow--bottom': $ctrl.expanded, 'arrow--right': !$ctrl.expanded}"></span></span>
+                                    <span class="content-accordion__header__label-1">See the bet receipt</span> <span
+                                      class="content-accordion__header__label-2" ng-transclude="secondary-label"></span>
+                                  </div>
+                                  <ng-switch on="$ctrl.forceHtmlRender">
+                                    <!---->
+                                    <!---->
+                                    <!---->
+                                    <!---->
+                                  </ng-switch>
+                                </div>
+                              </sbk-content-accordion>
+                              <div class="retain-selections"><button class="button button--tertiary button--stretched"
+                                  ng-click="$ctrl.retainSelections()"><span
+                                    class="button__label button__label--stretched">Reuse these bets</span></button>
+                              </div>
+                              <section class="close-receipt"><button class="button button--primary button--stretched"
+                                  ng-click="$ctrl.closeReceipt()"><span
+                                    class="button__label button__label--stretched">Close Bet Receipt</span></button>
+                              </section>
+                            </div>
+                          </sbk-receipt>
+                        </section>
+                      </section>
+                    </div>
+                    <!---->
+                  </div>
+                  <!---->
+                </div>
+              </sbk-betslip>
+            </div>
+          </div>
+          <!---->
+        </betslip-container>
+        <!---->
+      </div>
+    </div>
+  </section>
+</my-bets>

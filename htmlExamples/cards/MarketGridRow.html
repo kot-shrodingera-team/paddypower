@@ -1,0 +1,272 @@
+<abc-card class="event-card--item"
+  ng-repeat="cardItem in filteredCardItems = ($ctrl.card.cardItems | filter: { isPriced: true }) track by cardItem.id">
+  <div class="abc-card" ng-class="{
+          'abc-card--no-border': $ctrl.border === 'no-border',
+          'abc-card--dark': $ctrl.theme === 'dark'
+      }">
+    <div ng-transclude="content">
+      <abc-card-content>
+        <abc-accordion id="V_BOTH_TEAMS_TO_SCORE" accordion-type="'primary'" initial-is-open="::!cardItem.collapsed"
+          on-click="$ctrl.onToggleAccordion({isOpen, cardItem})">
+          <div class="accordion accordion--primary accordion--open" ng-class="{
+          'accordion--open': $ctrl.isOpen,
+          'accordion--with-divider': $ctrl.hasDivider,
+          'accordion--reversed-direction': $ctrl.isReversed,
+          'accordion--theme-': $ctrl.theme !== undefined,
+          'accordion--primary': $ctrl.accordionType !== undefined
+      }">
+            <div class="accordion__header" ng-click="$ctrl.click($event)">
+              <div class="accordion__collapse-indicator">
+                <abc-img-icon class="accordion__icon" source="$ctrl.currentIcon">
+                  <!----><svg ng-if="$ctrl.isSvg" class="img-icon" ng-attr-view_box="{{$ctrl.source.viewBox}}"
+                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                    <use ng-attr-xlink:href="{{$ctrl.source}}"
+                      xlink:href="sprite_af6b8a95bc96caded4f577941222382b.svg#functional-arrow-usage" width="100%"
+                      height="100%"></use>
+                  </svg>
+                  <!---->
+                  <!---->
+                </abc-img-icon>
+              </div>
+              <div class="accordion__left" ng-transclude="headerLeft">
+                <header-left class="event-card__accordion__header-left">
+                  <!---->
+                  <span class="accordion__title">Both Teams to Score Markets</span>
+                </header-left>
+              </div>
+              <div class="accordion__right">
+                <div class="accordion__right-content" ng-transclude="headerRight">
+                  <!---->
+                  <header-right ng-if="::!!cardItem.rightSideBadges">
+                    <abc-badges class="cashout-badges" items="::cardItem.rightSideBadges.badgeItems"
+                      layout-type="'horizontal'">
+                      <div class="badges badges--horizontal" ng-class="::{
+      'badges--horizontal': $ctrl.layoutType === 'horizontal',
+      'badges--vertical': $ctrl.layoutType === 'vertical'
+      }">
+                        <!----><span ng-repeat="item in $ctrl.items track by item.label+$index"
+                          class="badge badge--secondary" ng-class="::{
+              'badge--primary': item.type !== 'CASHOUT',
+              'badge--secondary': item.type === 'CASHOUT'
+          }">
+                          Cash out
+                        </span>
+                        <!---->
+                      </div>
+                    </abc-badges>
+                  </header-right>
+                  <!---->
+                </div>
+              </div>
+            </div>
+            <section class="accordion__body" ng-transclude="">
+
+
+
+
+              <abc-divider class="event-card__divider" thickness="'small'">
+                <div class="divider divider--small" ng-class="{
+      'divider--inset': $ctrl.inset,
+      'divider--small': $ctrl.thickness === 'small',
+      'divider--medium': $ctrl.thickness === 'medium',
+      'divider--large': $ctrl.thickness === 'large'
+  }"></div>
+              </abc-divider>
+
+              <!---->
+              <abc-sub-header ng-if="::cardItem.subHeader" subheader-type="'secondary'"
+                subheader-title="::cardItem.isPreviousPriceItem ? ' ' : cardItem.titleHeader"
+                subtitles="cardItem.subHeader" columns-size="$ctrl.indexedSubHeaders[cardItem.id]" hide-signifier="true"
+                hide-divider="true">
+                <div class="subheader grid subheader--secondary" ng-class="{
+      'subheader--with-signifier': !$ctrl.hideSignifier,
+      'subheader--primary': $ctrl.subheaderType == 'primary',
+      'subheader--secondary': $ctrl.subheaderType == 'secondary'
+      }">
+                  <!---->
+                  <div ng-if="::$ctrl.subheaderTitle"
+                    class="grid__cell-flex grid__cell-flex--gutter subheader__text--title">
+
+                  </div>
+                  <!---->
+                  <!---->
+                  <div ng-repeat="subtitle in $ctrl.subtitles" class="subheader__text--subtitle grid__cell-1-12"
+                    ng-class="'grid__cell-' + $ctrl.columnsSize[$index] + '-12'">
+                    Yes
+                  </div>
+                  <!---->
+                  <div ng-repeat="subtitle in $ctrl.subtitles" class="subheader__text--subtitle grid__cell-1-12"
+                    ng-class="'grid__cell-' + $ctrl.columnsSize[$index] + '-12'">
+                    No
+                  </div>
+                  <!---->
+                </div>
+                <!---->
+              </abc-sub-header>
+              <!---->
+
+              <div class="grid">
+                <!---->
+
+                <!---->
+
+                <!---->
+
+                <!---->
+              </div>
+
+              <div ng-switch="::cardItem.layoutType">
+                <!---->
+
+                <!---->
+
+                <!---->
+
+                <!---->
+
+                <!---->
+
+                <!---->
+
+                <!---->
+
+                <!---->
+                <market-grid-row ng-switch-when="MARKET_GRID_ROW" card-item="cardItem"
+                  on-btn-odds-click="$ctrl.onBtnOddsClick({lineItem})">
+                  <!---->
+                  <div class="market-grid-row runner-line"
+                    ng-repeat="cardItem in $ctrl.cardItem.cardItems track by cardItem.id">
+                    <div class="grid">
+                      <div class="grid__cell-flex grid__cell-flex--gutter grid">
+                        <p class="market-grid-row__runner-name grid__cell-flex runner-name">Both teams to Score?</p>
+                      </div>
+                      <!---->
+                      <abc-btn-odds ng-class="'grid__cell-'+ ($ctrl.columnSize || 1) + '-12'"
+                        on-click-focus=".single-controls__stake-input .input-text"
+                        ng-repeat="line in cardItem.lines[0] track by line.id"
+                        on-click="$ctrl.onBtnOddsClick({ lineItem: line })" is-selected="line.selected"
+                        label="line.label | i18n" value="line.value" show-padlock="!line.label"
+                        is-disabled="line.disabled" class="grid__cell-1-12">
+                        <abc-button class="btn-odds" type="branded" disabled="$ctrl.isDisabled" transition="$ctrl.type"
+                          active="$ctrl.isSelected" size="big" on-click="$ctrl.onClick($event)">
+                          <div class="button button--branded button--big" ng-click="$ctrl.onButtonClick($event)"
+                            ng-class="{
+      'button--primary': $ctrl.type === 'primary',
+      'button--secondary': $ctrl.type === 'secondary',
+      'button--branded': $ctrl.type === 'branded',
+      'button--danger': $ctrl.type === 'danger',
+      'button--highlighted': $ctrl.type === 'highlighted',
+      'button--clear': $ctrl.type === 'clear',
+      'button--clear-dark': $ctrl.type === 'clear-dark',
+      'button--legacy': $ctrl.type === 'legacy',
+  
+      'button--medium': $ctrl.size === 'medium',
+      'button--large': $ctrl.size === 'large',
+      'button--big': $ctrl.size === 'big',
+      'button--fluid': $ctrl.size === 'fluid',
+      'button--skinny': $ctrl.size === 'skinny',
+  
+      'button--active': $ctrl.active,
+      'button--disabled': $ctrl.disabled,
+      'button--loading': $ctrl.loading,
+  
+      'button--round': $ctrl.shape === 'round',
+      'button--with-sub-label': $ctrl.hasSubLabel
+      }">
+                            <div class="button__background"
+                              ng-class="{'button__background--reverse' : $ctrl.transition === 'up'}">
+                              <div>
+                                <!----><svg ng-if="$ctrl.transition &amp;&amp; !$ctrl.disabled"
+                                  class="button__transition" ng-class="{
+                      'button__transition--up' : $ctrl.transition === 'up',
+                      'button__transition--down' : $ctrl.transition === 'down',
+                  }" viewBox="0 0 50 46" preserveAspectRatio="none">
+                                  <polygon points="0,8 25,0 50,8 50,38 25,46 0,38"></polygon>
+                                </svg>
+                                <!---->
+                              </div>
+                            </div>
+                            <div class="button__content-container">
+                              <ng-transclude class="button__content">
+                                <span class="btn-odds__label">2.6</span>
+                                <!---->
+                              </ng-transclude>
+                              <!---->
+                            </div>
+                          </div>
+                        </abc-button>
+                      </abc-btn-odds>
+                      <!---->
+                      <abc-btn-odds ng-class="'grid__cell-'+ ($ctrl.columnSize || 1) + '-12'"
+                        on-click-focus=".single-controls__stake-input .input-text"
+                        ng-repeat="line in cardItem.lines[0] track by line.id"
+                        on-click="$ctrl.onBtnOddsClick({ lineItem: line })" is-selected="line.selected"
+                        label="line.label | i18n" value="line.value" show-padlock="!line.label"
+                        is-disabled="line.disabled" class="grid__cell-1-12">
+                        <abc-button class="btn-odds" type="branded" disabled="$ctrl.isDisabled" transition="$ctrl.type"
+                          active="$ctrl.isSelected" size="big" on-click="$ctrl.onClick($event)">
+                          <div class="button button--branded button--big" ng-click="$ctrl.onButtonClick($event)"
+                            ng-class="{
+      'button--primary': $ctrl.type === 'primary',
+      'button--secondary': $ctrl.type === 'secondary',
+      'button--branded': $ctrl.type === 'branded',
+      'button--danger': $ctrl.type === 'danger',
+      'button--highlighted': $ctrl.type === 'highlighted',
+      'button--clear': $ctrl.type === 'clear',
+      'button--clear-dark': $ctrl.type === 'clear-dark',
+      'button--legacy': $ctrl.type === 'legacy',
+  
+      'button--medium': $ctrl.size === 'medium',
+      'button--large': $ctrl.size === 'large',
+      'button--big': $ctrl.size === 'big',
+      'button--fluid': $ctrl.size === 'fluid',
+      'button--skinny': $ctrl.size === 'skinny',
+  
+      'button--active': $ctrl.active,
+      'button--disabled': $ctrl.disabled,
+      'button--loading': $ctrl.loading,
+  
+      'button--round': $ctrl.shape === 'round',
+      'button--with-sub-label': $ctrl.hasSubLabel
+      }">
+                            <div class="button__background"
+                              ng-class="{'button__background--reverse' : $ctrl.transition === 'up'}">
+                              <div>
+                                <!----><svg ng-if="$ctrl.transition &amp;&amp; !$ctrl.disabled"
+                                  class="button__transition" ng-class="{
+                      'button__transition--up' : $ctrl.transition === 'up',
+                      'button__transition--down' : $ctrl.transition === 'down',
+                  }" viewBox="0 0 50 46" preserveAspectRatio="none">
+                                  <polygon points="0,8 25,0 50,8 50,38 25,46 0,38"></polygon>
+                                </svg>
+                                <!---->
+                              </div>
+                            </div>
+                            <div class="button__content-container">
+                              <ng-transclude class="button__content">
+                                <span class="btn-odds__label">1.44</span>
+                                <!---->
+                              </ng-transclude>
+                              <!---->
+                            </div>
+                          </div>
+                        </abc-button>
+                      </abc-btn-odds>
+                      <!---->
+                    </div>
+                    <!---->
+                    <!---->
+                  </div>
+                  <!---->
+                </market-grid-row>
+                <!---->
+
+                <!---->
+              </div>
+            </section>
+          </div>
+        </abc-accordion>
+      </abc-card-content>
+    </div>
+  </div>
+</abc-card>

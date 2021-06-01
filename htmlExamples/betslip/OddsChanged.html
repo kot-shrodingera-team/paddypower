@@ -1,0 +1,262 @@
+<my-bets balance="$ctrl.balance" distance-to-top="$ctrl.distanceToTop"
+  on-tab-toggle="$ctrl.onMyBetsTabToggle(selectedTab)">
+  <section class="my-bets">
+    <div class="my-bets__holder" resize-to-viewport="" offset="88" style="max-height: calc(100vh - 88px);">
+      <div class="my-bets__header">
+        <!---->
+        <my-bets-tabs tabs="$ctrl.tabs" on-toggle="$ctrl.onTabClick(itemId)">
+          <div class="my-bets-tabs">
+            <!----><button class="my-bets-tabs__tab my-bets-tabs__tab--selected"
+              ng-repeat="item in $ctrl.tabs track by item.id" ng-click="$ctrl.onToggle({itemId: item.id})"
+              ng-class="{'my-bets-tabs__tab--selected': item.isSelected}">
+              <svg class="my-bets-tabs__tab-arrow">
+                <use xlink:href="sprite_af6b8a95bc96caded4f577941222382b.svg#functional-arrow-usage"></use>
+              </svg>
+              <span class="my-bets-tabs__tab-title">Betslip</span>
+              <!---->
+              <abc-counter ng-if="item.showCounter" class="my-bets-tabs__tab-counter" size="medium" number="1">
+                <span class="counter counter--medium" ng-class="{
+      'counter--large': $ctrl.isLarge,
+      'counter--medium': $ctrl.isMedium,
+      'counter--small': $ctrl.isSmall,
+      'counter--inactive': $ctrl.isInactive,
+      'counter--has-increased': $ctrl.hasIncreased
+  }">
+                  <span class="counter__value">1</span>
+                </span>
+              </abc-counter>
+              <!---->
+            </button>
+            <!----><button class="my-bets-tabs__tab" ng-repeat="item in $ctrl.tabs track by item.id"
+              ng-click="$ctrl.onToggle({itemId: item.id})" ng-class="{'my-bets-tabs__tab--selected': item.isSelected}">
+              <svg class="my-bets-tabs__tab-arrow">
+                <use xlink:href="sprite_af6b8a95bc96caded4f577941222382b.svg#functional-arrow-usage"></use>
+              </svg>
+              <span class="my-bets-tabs__tab-title">My Bets</span>
+              <!---->
+              <abc-counter ng-if="item.showCounter" class="my-bets-tabs__tab-counter" size="medium" number="1">
+                <span class="counter counter--medium" ng-class="{
+      'counter--large': $ctrl.isLarge,
+      'counter--medium': $ctrl.isMedium,
+      'counter--small': $ctrl.isSmall,
+      'counter--inactive': $ctrl.isInactive,
+      'counter--has-increased': $ctrl.hasIncreased
+  }">
+                  <span class="counter__value">1</span>
+                </span>
+              </abc-counter>
+              <!---->
+            </button>
+            <!---->
+          </div>
+        </my-bets-tabs>
+      </div>
+      <div class="my-bets__container" ng-show="$ctrl.selectedTabId !== null">
+        <betslip-container show-betslip="$ctrl.selectedTabId === 'betslip'" balance="$ctrl.balance"
+          class="my-bets__betslip my-bets__betslip--open"
+          ng-class="{'my-bets__betslip--open': $ctrl.selectedTabId === 'betslip'}">
+          <!---->
+          <div class="betslip-container" ng-if="$ctrl.showBetslip">
+            <!---->
+            <div class="betslip-container__content">
+              <sbk-betslip data="$ctrl.betslipViewModel[$ctrl.selectedGroup]"
+                on-change="$ctrl.handleBetslipUserAction($ctrl.selectedGroup, action, payload)">
+                <div class="sbk-betslip">
+                  <!---->
+                  <div class="sbk-betslip__form" ng-if="$ctrl.isEditBetslipView">
+                    <!---->
+                    <div class="sbk-betslip__header" ng-if="$ctrl.globalErrorMessage">
+                      <div class="error error-odds-movement" ng-class="{'error-odds-movement': $ctrl.oddsChanged}">
+                        <div class="error__message-container">
+                          <div class="error__icon"></div><span class="error__message">The odds have changed but your bet
+                            doesn’t have to. ‘Accept all odds movement’, and replace your bet.</span>
+                        </div>
+                        <!---->
+                        <div class="accept-odds-movement" ng-if="$ctrl.oddsChanged">
+                          <sbk-labeled-toggle on-click="$ctrl.toggleAcceptOddsMovement()"
+                            label="'I18N.BETSLIP.CORE.ACCEPT_ODDS_MOVEMENT' | bsI18N"
+                            toggle-active="$ctrl.acceptOddsMovement">
+                            <div class="labeled-toggle"><span class="labeled-toggle__label">Accept all odds
+                                movement</span> <button class="toggle" ng-class="{'toggle--active': $ctrl.toggleActive}"
+                                ng-click="$ctrl.onClick()"></button></div>
+                          </sbk-labeled-toggle>
+                        </div>
+                        <!---->
+                      </div>
+                    </div>
+                    <!---->
+                    <section class="sbk-betslip__content scroll-visible"
+                      ng-class="{'scroll-visible': $ctrl.showScroll &amp;&amp; !$ctrl.busy}">
+                      <fieldset class="fieldset-form" ng-disabled="$ctrl.busy" tabindex="-1">
+                        <!---->
+                        <section class="sbk-section">
+                          <!---->
+                          <!---->
+                          <sbk-singles class="sbk-gameplay-item" ng-if="$ctrl.singles.length" singles="$ctrl.singles"
+                            show-section-title="$ctrl.showSectionHeaders"
+                            on-change="$ctrl.handleAction(action, payload)">
+                            <section class="sbk-betslip-singles">
+                              <!---->
+                              <div class="sbk-betslip-singles__header" ng-if="::$ctrl.showSectionTitle"><span
+                                  class="label label--bold label--gun-powder">Singles</span></div>
+                              <!---->
+                              <!---->
+                              <sbk-single ng-repeat="single in $ctrl.singles track by single.id" single="single"
+                                on-change="$ctrl.onSingleChange(action, payload)">
+                                <section
+                                  class="sbk-betslip-single sbk-betslip-single--interactable sbk-betslip-single--inactive"
+                                  id="SIMPLE_SELECTION:[927.137829659-3455675]" ng-class="{
+      'sbk-betslip-single--inactive': $ctrl.isInactive,
+      'sbk-betslip-single--interactable': !$ctrl.isLocked,
+      'sbk-betslip-single--enhanced': $ctrl.isEnhancedOdds
+  }">
+                                  <!---->
+                                  <section class="sbk-betslip-single__alert" ng-if="$ctrl.single.hasAlert"></section>
+                                  <!---->
+                                  <!---->
+                                  <section class="sbk-betslip-single__content">
+                                    <div class="single-header">
+                                      <!---->
+                                      <sbk-checkbox class="single-header__bet-toggle"
+                                        ng-if="::$ctrl.single.displayActiveToggle"
+                                        ng-class="{'single-header__bet-toggle--error': $ctrl.single.isInvalidCombination}"
+                                        checked="$ctrl.single.active" on-change="$ctrl.onToggle(checked)"><button
+                                          class="checkbox checkbox--active" tabindex="0"
+                                          ng-class="{'checkbox--active': $ctrl.checked}" ng-click="$ctrl.toggle()"><span
+                                            class="checkbox__icon"></span></button></sbk-checkbox>
+                                      <!----><span class="single-header__market-name">Sagamihara v Ehime - Match Odds
+                                      </span><button class="close-icon" tabindex="-1"
+                                        ng-click="$ctrl.onRemove()"></button>
+                                    </div>
+                                    <div class="single-info">
+                                      <!---->
+                                      <div class="single-info__selection"><span
+                                          class="single-info__selection__name">Ehime</span>
+                                        <!---->
+                                      </div>
+                                      <div class="odds movement" ng-switch="$ctrl.oddsSelector" ng-class="{
+                    'movement--up': $ctrl.oddsMovedUp,
+                    'movement--down': $ctrl.oddsMovedDown
+                  }">
+                                        <!---->
+                                        <div ng-switch-when="odds" class="odds__regular"
+                                          ng-class="{ 'odds__regular--enhanced': $ctrl.isEnhancedOdds }"><span
+                                            class="odds__value odds__value--original"><span class="full-arrow"></span>
+                                            1.22 </span><span class="odds__value odds__value--enhanced"><span
+                                              class="full-arrow"></span> 1.22 </span><span
+                                            class="odds__value odds__value--striked"></span></div>
+                                        <!---->
+                                        <!---->
+                                        <!---->
+                                        <!---->
+                                      </div>
+                                    </div>
+                                    <div class="single-controls">
+                                      <div class="single-controls__stake-input">
+                                        <!---->
+                                        <sbk-input value="$ctrl.single.stake" min="0" placeholder="0.00"
+                                          is-disabled="$ctrl.isLocked" has-errors="$ctrl.single.hasErrors"
+                                          has-bonus="$ctrl.single.hasBonus" on-change="$ctrl.onStakeChange(value)">
+                                          <div class="input-text-wrapper"
+                                            ng-class="{'input-text-wrapper--error': $ctrl.hasErrors}">
+                                            <!----> <input class="input-text ng-valid ng-not-empty ng-dirty ng-touched"
+                                              tabindex="0" type="text" min="0" placeholder=""
+                                              ng-disabled="$ctrl.isDisabled" ng-model="$ctrl.validateInput"
+                                              ng-model-options="{getterSetter: true}" ng-blur="$ctrl.handleBlur()"
+                                              ng-focus="$ctrl.handleFocus()" ng-keydown="$ctrl.handleEnterKey($event)">
+                                          </div>
+                                        </sbk-input>
+                                      </div>
+                                      <!---->
+                                      <!---->
+                                      <div class="potential-returns" ng-if="!$ctrl.isLocked"
+                                        ng-class="{'potential-returns--enhanced': $ctrl.isEnhancedOdds}"><span
+                                          class="potential-returns__label">Potential returns</span>
+                                        <div class="potential-returns__value"><span
+                                            class="potential-returns__value--original">£0.12 </span><span
+                                            class="potential-returns__value--enhanced">£0.12</span></div>
+                                      </div>
+                                      <!---->
+                                    </div>
+                                    <!---->
+                                  </section>
+                                  <!---->
+                                  <!---->
+                                </section>
+                              </sbk-single>
+                              <!---->
+                            </section>
+                          </sbk-singles>
+                          <!---->
+                          <!---->
+                          <!---->
+                          <!---->
+                        </section>
+                        <!---->
+                        <section class="sbk-section labeled-toggles" ng-if="$ctrl.isLoggedIn">
+                          <!---->
+                          <!---->
+                        </section>
+                        <!---->
+                      </fieldset>
+                    </section>
+                    <div ng-transclude="keyboard" class="sbk-betslip__keyboard"></div>
+                    <sbk-betslip-footer total-stake="$ctrl.totalStake"
+                      total-potential-return="$ctrl.totalPotentialReturn"
+                      has-enhanced-selections="$ctrl.hasEnhancedSelections" busy="$ctrl.busy"
+                      place-button-state="$ctrl.state.PLACE_BET_BUTTON" show-clear-button="$ctrl.showClearButton"
+                      on-clear="$ctrl.clear()" on-place="$ctrl.placeBets()">
+                      <section class="sbk-betslip-footer">
+                        <div class="footer-line"><span class="footer-line__label stake-label">Total stake:</span> <span
+                            class="footer-line__value stake-value">£0.10</span></div>
+                        <div class="footer-line"><span class="footer-line__label returns-label">Potential
+                            returns:</span> <span class="footer-line__value returns-value"
+                            ng-class="{ 'returns-value--enhanced': $ctrl.hasEnhancedSelections }">£0.12</span></div>
+                        <div class="footer-controls">
+                          <!----><button class="button button--cancel clear-all-bets" ng-if="$ctrl.showClearButton"
+                            ng-disabled="$ctrl.busy" ng-class="{'clear-all-bets--squish': $ctrl.busy}"
+                            ng-click="$ctrl.onClear()"></button>
+                          <!---->
+                          <div class="place-bet-button-wrapper"><button
+                              class="button button--stretched place-bet-button button--primary" ng-class="{
+                      'button--primary': $ctrl.placeButtonState.ACTIVE,
+                      'button--disabled': !$ctrl.placeButtonState.ACTIVE || $ctrl.busy
+                  }" ng-disabled="!$ctrl.placeButtonState.ACTIVE || $ctrl.busy" ng-click="$ctrl.onPlace()"><span
+                                class="button__label button__label--stretched">Place bets</span></button>
+                            <div class="placing-bets placing-bets--hidden"
+                              ng-class="{'placing-bets--hidden': !$ctrl.busy}">
+                              <div class="placing-bets__info-container">
+                                <div class="placing-bets__info">Placing Bet</div>
+                              </div>
+                              <div class="placing-bets__loading-container">
+                                <div class="placing-bets__loading"><svg class="placing-bets-dot" viewBox="0 0 6 6"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="3" cy="3" r="3"></circle>
+                                  </svg> <svg class="placing-bets-dot" viewBox="0 0 6 6"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="3" cy="3" r="3"></circle>
+                                  </svg> <svg class="placing-bets-dot" viewBox="0 0 6 6"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="3" cy="3" r="3"></circle>
+                                  </svg></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </sbk-betslip-footer>
+                  </div>
+                  <!---->
+                  <!---->
+                  <!---->
+                </div>
+              </sbk-betslip>
+            </div>
+          </div>
+          <!---->
+        </betslip-container>
+        <!---->
+      </div>
+    </div>
+  </section>
+</my-bets>
