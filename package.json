@@ -1,6 +1,6 @@
 {
   "name": "@kot-shrodingera-team/paddypower",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "devDependencies": {
     "@kot-shrodingera-team/eslint-config-germes": "1.0.5",
     "@kot-shrodingera-team/germes-generators": "1.1.7",
